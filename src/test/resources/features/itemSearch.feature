@@ -17,4 +17,4 @@ Feature: Web Restaurant search functionality
     When User searches for an item "stainless work table"
     And User adds last found item to cart
     And User empties cart
-    Then Cart should be empty
+    Then Cart should be empty and message "Your cart is empty." should be displayed

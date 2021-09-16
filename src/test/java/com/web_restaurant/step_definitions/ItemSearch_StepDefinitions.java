@@ -24,11 +24,13 @@ public class ItemSearch_StepDefinitions {
 
     @Given("User is on Web Restaurant home page")
     public void user_is_on_web_restaurant_home_page() {
+
         Driver.getDriver().get(ConfigurationReader.getProperty("env"));
     }
 
     @When("User searches for an item {string}")
     public void user_searches_for_an_item(String searchItem) {
+
         homePage.searchBox.sendKeys(searchItem);
         homePage.searchButton.click();
     }
@@ -52,29 +54,26 @@ public class ItemSearch_StepDefinitions {
 
     @When("User adds last found item to cart")
     public void user_adds_last_found_item_to_cart() {
+
         searchResultPage.resultButtons.get(searchResultPage.resultButtons.size() - 1).click();
         searchResultPage.allResultLinks.get(searchResultPage.allResultLinks.size() - 1).click();
         lastSearchItemPage.addToCartButton.click();
-
     }
 
     @When("User empties cart")
-    public void user_empties_cart() throws InterruptedException {
+    public void user_empties_cart() {
 
         lastSearchItemPage.viewCartButton.click();
         cartPage.emptyCartButton.click();
         BrowserUtils.waitForClickability(cartPage.emptyCartConfirmationButton, 3);
         cartPage.emptyCartConfirmationButton.click();
-
     }
 
-    @Then("Cart should be empty")
-    public void cart_should_be_empty() {
+    @Then("Cart should be empty and message {string} should be displayed")
+    public void cart_should_be_empty_and_message_should_be_displayed(String expectedMessage) {
 
         BrowserUtils.waitForClickability(cartPage.emptyCartConfirmationMessage, 5);
-        Assert.assertEquals("Your cart is empty.", cartPage.emptyCartConfirmationMessage.getText());
-
+        Assert.assertEquals("Error. Invalid action.",expectedMessage, cartPage.emptyCartConfirmationMessage.getText());
     }
-
 
 }
